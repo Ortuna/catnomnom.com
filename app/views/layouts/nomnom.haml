@@ -1,0 +1,11 @@
+!!! XML
+!!!
+%html{'ng-app' => 'nomnom'}
+  %head
+    %title Catnomnom.com
+    = stylesheet_link_tag 'global'
+    = javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js'
+    = javascript_include_tag 'main'
+  %body
+    #content
+      = yield

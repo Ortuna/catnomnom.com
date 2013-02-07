@@ -1,0 +1,6 @@
+%p
+  %div{'ng-controller' => 'awesomeCtrl'}
+    %ul
+      %li{'ng-repeat' => 'cat in cats'}
+        %span{:style => 'color:{{cat.color}}'}
+          The cat is named {{cat.name}}
