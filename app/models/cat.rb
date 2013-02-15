@@ -53,6 +53,7 @@ class Cat
     end
 
     def list_locations
+      #TODO: Extract to YAML
       [
         "http://www.reddit.com/r/kittens.json",
         "http://www.reddit.com/r/cats.json"
