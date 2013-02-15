@@ -26,7 +26,7 @@ class Cat
     end #get_fresh_cat_list
 
     def create_cats_from_list
-      cats = get_fresh_cat_list.map do |hash|
+      get_fresh_cat_list.map do |hash|
         cat  = Cat.new
         cat.attributes = hash
         cat
