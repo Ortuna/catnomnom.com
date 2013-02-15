@@ -10,13 +10,9 @@ class Cat
 
   class << self
     def get_fresh_cat_list
-      require 'net/http'
       cats      = []
-      locations = ["http://www.reddit.com/r/kittens.json",
-                  "http://www.reddit.com/r/cats.json",
-                  "http://www.reddit.com/r/cats/new.json"]
-      locations.each do |json_url|
-        body = MultiJson.load(Net::HTTP.get_response(URI.parse(json_url)).body)
+      list_locations.each do |json_url|
+        body    = parse_json_from_url(json_url) 
         entries = body["data"]["children"].map do |entry|
           {
            :url   => entry["data"]["url"],
@@ -36,6 +32,21 @@ class Cat
         cat
       end
     end
+
+    private
+
+    def parse_json_from_url(json_url)
+      require 'net/http'
+      MultiJson.load(Net::HTTP.get_response(URI.parse(json_url)).body)
+    end
+
+    def list_locations
+      [
+        "http://www.reddit.com/r/kittens.json",
+        "http://www.reddit.com/r/cats.json",
+        "http://www.reddit.com/r/cats/new.json"
+      ]
+    end    
   end #class << self
 
   private

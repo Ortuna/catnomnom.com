@@ -2,12 +2,17 @@ require 'spec_helper'
 
 describe Cat do
 
+  before :all do
+    Cat.all.each {|x| x.destroy}
+  end
+
   before :each do 
     @cat = Cat.new
     @cat.title = "Dobby"
     @cat.url = "http://www.google.com"
     @cat.guid = "1234 %d" % Random.rand(5000) 
   end
+
   it "Should have the cat model" do
     c = Cat.new
     c.should_not be_nil
@@ -36,9 +41,7 @@ describe Cat do
 
   it "Should create an array of models from the list of cats" do
     cats = Cat.create_cats_from_list
-    p cats.first
     cats.first.class.should == Cat
     cats.first.save.should == true
-
   end  
 end
