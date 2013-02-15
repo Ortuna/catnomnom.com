@@ -16,7 +16,7 @@ class Cat
       all.each {|x| x.destroy}
     end
 
-    def save_objects(objects = create_cat_objects)
+    def save_objects(objects = create_objects)
       objects.each do |cat|
         cat.save
       end
