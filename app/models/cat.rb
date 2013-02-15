@@ -5,7 +5,9 @@ class Cat
   property :title, String, :required => true
   property :url, String, :required => true
 
+  validates_presence_of :url
   validates_with_method :url, :method  => :validate_proper_url
+  validates_with_method :url, :method  => :validate_imgur_url
 
 
   class << self
@@ -34,7 +36,6 @@ class Cat
     end
 
     private
-
     def parse_json_from_url(json_url)
       require 'net/http'
       MultiJson.load(Net::HTTP.get_response(URI.parse(json_url)).body)
@@ -50,6 +51,17 @@ class Cat
   end #class << self
 
   private
+  def validate_imgur_url
+    #improve!
+    # tag group matches
+    # move out image change logic
+    return [false, "Not an imgur url"] if self.url.nil?
+    
+    matches = self.url.match(/.*imgur\.com\/(\w*)/)
+    return [false, "Not an imgur url"] if matches.nil? or matches[1] == "a"
+    self.url = "http://imgur.com/" + matches[1] + "l" + ".jpg"
+  end
+
   def validate_proper_url
     is_valid_url?(url) ? true : [false, "Invalid url"]
   end

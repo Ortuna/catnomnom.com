@@ -9,7 +9,7 @@ describe Cat do
   before :each do 
     @cat = Cat.new
     @cat.title = "Dobby"
-    @cat.url = "http://www.google.com"
+    @cat.url = "http://imgur.com/test"
     @cat.guid = "1234 %d" % Random.rand(5000) 
   end
 
@@ -31,6 +31,14 @@ describe Cat do
     @cat.save.should == false
   end
 
+  it "Should not save a non-imgur url" do
+    @cat.url = "http://www.google.com"
+    @cat.save.should == false
+    
+    @cat.url = "http://i.imgur.com/2MeZqpN.gif"
+    @cat.save.should == true
+  end
+
   it "Should be able to get a list of new cats" do
     cats = Cat.get_fresh_cat_list
     cats.size.should >= 1
@@ -43,5 +51,5 @@ describe Cat do
     cats = Cat.create_cats_from_list
     cats.first.class.should == Cat
     cats.first.save.should == true
-  end  
+  end
 end
