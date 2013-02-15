@@ -3,17 +3,20 @@ require 'spec_helper'
 describe CatnomnomCom do 
   
   before :all do
-    Cat.destroy_all
-    Cat.save_objects
+    Cat.save_objects if Cat.count == 0
   end
 
   def get_request_cats(extend = "")
     get "/cats#{extend}"
-    MultiJson.load(last_response.body)    
+    last_response.should be_ok
+    MultiJson.load(last_response.body)
   end
 
   it "Sanity Check" do
     get '/cats'
+    last_response.should be_ok
+
+    get '/cats.json'
     last_response.should be_ok
   end
 
@@ -35,5 +38,10 @@ describe CatnomnomCom do
 
     cats = get_request_cats "?limit=10"
     cats.count.should == 10
+  end
+
+  it "Should reject bogus limits" do 
+    cats = get_request_cats "?limit=dexter"
+    cats.size.should > 0    
   end
 end
