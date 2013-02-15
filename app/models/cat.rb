@@ -5,15 +5,26 @@ class Cat
   property :title, String, :required => true
   property :url, String, :required => true
 
-  validates_presence_of :url
+  validates_presence_of :url, :title, :guid
   validates_with_method :url, :method  => :validate_proper_url
   validates_with_method :url, :method  => :validate_imgur_url
 
 
   class << self
-    def get_fresh_cat_list
+    def destroy_all
+      all.each {|x| x.destroy}
+    end
+
+    def save_objects(objects = create_cat_objects)
+      objects.each do |cat|
+        p "Saving cat #{cat.guid}"
+        cat.save
+      end
+    end
+
+    def query_locations_for_objects(locations = list_locations)
       cats      = []
-      list_locations.each do |json_url|
+      locations.each do |json_url|
         body    = parse_json_from_url(json_url) 
         entries = body["data"]["children"].map do |entry|
           {
@@ -27,8 +38,8 @@ class Cat
       cats
     end #get_fresh_cat_list
 
-    def create_cats_from_list
-      get_fresh_cat_list.map do |hash|
+    def create_objects(objects = query_locations_for_objects)
+      objects.map do |hash|
         cat  = Cat.new
         cat.attributes = hash
         cat
@@ -47,7 +58,7 @@ class Cat
         "http://www.reddit.com/r/cats.json",
         "http://www.reddit.com/r/cats/new.json"
       ]
-    end    
+    end
   end #class << self
 
   private

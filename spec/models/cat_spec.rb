@@ -3,10 +3,11 @@ require 'spec_helper'
 describe Cat do
 
   before :all do
-    Cat.all.each {|x| x.destroy}
+    
   end
 
   before :each do 
+    Cat.destroy_all
     @cat = Cat.new
     @cat.title = "Dobby"
     @cat.url = "http://imgur.com/test"
@@ -39,17 +40,24 @@ describe Cat do
     @cat.save.should == true
   end
 
-  it "Should be able to get a list of new cats" do
-    cats = Cat.get_fresh_cat_list
+  it "#query_locations_for_objects should be able to get a list of new cats" do
+    cats = Cat.query_locations_for_objects
     cats.size.should >= 1
     cats.first[:url].should_not   be_nil
     cats.first[:title].should_not be_nil
     cats.first[:guid].should_not be_nil
   end
 
-  it "Should create an array of models from the list of cats" do
-    cats = Cat.create_cats_from_list
+  it "#create_objects should create an array of models from the list of cats" do
+    cats = Cat.create_objects
     cats.first.class.should == Cat
     cats.first.save.should == true
+  end
+
+  it "#save_new_objects Should insert all objects into the db" do
+    Cat.destroy_all
+    cats = Cat.create_objects
+    Cat.save_objects(cats)
+    Cat.all.count.should == cats.size
   end
 end
