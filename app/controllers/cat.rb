@@ -6,9 +6,8 @@ class CatnomnomCom
   end
 
   get '/cats', :provides => [:html, :json] do
-    @cats = Cat.all(
-              :limit => extract_limit_from_params(params[:limit])
-            )
+    limit = extract_limit_from_params(params[:limit])
+    @cats = Cat.all(:limit => limit)
     json @cats
   end
 
