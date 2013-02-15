@@ -1,6 +1,6 @@
 ---
-:orm: none
-:test: none
+:orm: datamapper
+:test: rspec
 :mock: none
 :script: none
 :renderer: haml
