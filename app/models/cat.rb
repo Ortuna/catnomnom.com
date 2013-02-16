@@ -1,10 +1,11 @@
 class Cat
   include DataMapper::Resource
 
-  property :guid, String, :key => true
+  property :guid, String, :key => true, :unique => true
   property :title, String, :required => true
   property :url, String, :required => true
 
+  validates_uniqueness_of :guid
   validates_presence_of :url, :title, :guid
   validates_with_method :url, :method  => :validate_proper_url
   validates_with_method :url, :method  => :validate_imgur_url
@@ -18,7 +19,12 @@ class Cat
 
     def save_objects(objects = create_objects)
       objects.each do |cat|
-        cat.save
+        begin 
+          cat.raise_on_save_failure = false
+          cat.save!
+        rescue
+          next
+        end
       end
     end
 
@@ -56,7 +62,8 @@ class Cat
       #TODO: Extract to YAML
       [
         "http://www.reddit.com/r/kittens.json",
-        "http://www.reddit.com/r/cats.json"
+        "http://www.reddit.com/r/cats.json",
+        "http://www.reddit.com/r/cats/new.json",
       ]
     end
   end #class << self
