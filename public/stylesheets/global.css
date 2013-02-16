@@ -1,7 +1,5 @@
 img {
-  position:absolute;
-  top:0;
-  left:0;
+  position: absolute;
 }
 
 img.large {
@@ -15,3 +13,4 @@ img.medium {
 img.small {
   max-width: 50px;
 }
+

@@ -40,32 +40,14 @@ Nomnom.setupPositions = function() {
     var top  = Math.round(Math.random() * docHeight - $el.height());
     $el.css("left", left);
     $el.css("top", top);
+
+    $el.transition({ y: -(docHeight - top), duration: 5000 });
   }
-}
 
-
-Nomnom.moveImages = function(){
-  for(var i = 0; i < images.length; i ++){
-    var $el = $("#" + images[i].get('elementId'));
-    var duration = 1000;
-
-    if($el.hasClass('large'))
-      duration = duration * 9;
-    else if($el.hasClass('medium'))
-      duration = duration * 9.5;
-    else if($el.hasClass('small')) 
-      duration = duration * 10;
-
-    $el.animate({
-        top: "-" + $el.height() + "px",
-      },{
-        duration: duration
-      });
-  }
 }
 
 $(document).ready(function(){
   var moveInterval = setTimeout(Nomnom.setupPositions, 500);
-  var moveTimeout  = setInterval(Nomnom.moveImages, 1000);
+  var moveTimeout  = setTimeout(Nomnom.moveImages, 1000);
 });
 
