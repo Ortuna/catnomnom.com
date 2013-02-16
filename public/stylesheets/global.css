@@ -1,0 +1,17 @@
+img {
+  position:absolute;
+  top:0;
+  left:0;
+}
+
+img.large {
+  max-width: 150px;
+}
+
+img.medium {
+  max-width: 100px;
+}
+
+img.small {
+  max-width: 50px;
+}
