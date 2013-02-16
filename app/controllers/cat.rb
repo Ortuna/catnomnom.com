@@ -1,8 +1,14 @@
 class CatnomnomCom
   register Padrino::MultiJson
+  
+  layout :app
 
   before :each do
     content_type :json
+  end
+
+  get '/' do
+    render :index
   end
 
   get '/cats', :provides => [:html, :json] do
