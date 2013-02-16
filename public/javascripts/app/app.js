@@ -23,7 +23,7 @@ Nomnom.catView = Ember.View.extend({
 var classes = ['large', 'small', 'medium'];
 var images = [];
 
-for(var i = 0 ; i < 5; i++) {
+for(var i = 0 ; i < 10; i++) {
   var index =  Math.round(Math.random()*3);
   view = Nomnom.catView.create();
   view.classNames = [classes[index]];
@@ -41,7 +41,7 @@ Nomnom.setupPositions = function() {
     $el.css("left", left);
     $el.css("top", top);
 
-    $el.transition({ y: -(docHeight - top), duration: 5000 });
+    $el.transition({ y: - (top + docHeight), duration: 5000 });
   }
 
 }
