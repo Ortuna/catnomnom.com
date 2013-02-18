@@ -1,16 +1,20 @@
 img {
   position: absolute;
+  border-radius: 5px;
 }
 
 img.large {
-  max-width: 150px;
+  max-height: 250px;
+  z-index: 0;
 }
 
 img.medium {
-  max-width: 100px;
+  max-height: 200px;
+  z-index: 1;
 }
 
 img.small {
-  max-width: 50px;
+  max-height: 150px;
+  z-index: 2;
 }
 

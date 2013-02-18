@@ -1,15 +1,16 @@
 window.Nomnom = Ember.Application.create();
 
-Nomnom.IndexController = Ember.Controller.extend({});
+/* This is all defaulted (Dont need to be explicit) */
+// Nomnom.IndexController = Ember.Controller.extend({});
 
-Nomnom.Router.map(function(){
-  this.route("index", { path: "/" });
-});
+// Nomnom.Router.map(function(){
+//   this.route("index", { path: "/" });
+// });
 
 Nomnom.IndexRoute = Ember.Route.extend({
   setupController: function(controller){},
   renderTemplate: function(){
-    this.render('cats');
+    this.render('containerView');
   }
 });
 
@@ -28,41 +29,65 @@ Nomnom.catView = Ember.View.extend({
     var left = Math.round(Math.random() * docWidth  - $el.width());
     var top  = Math.round(Math.random() * docHeight - $el.height());
 
+    if(left < 0)
+      left = 0;
+    if(top < 0)
+      top = 0;
+
     $el.css("left", left);
     $el.css("top", top);
+    this.applyTransition(top, $el, docWidth, docHeight);
+  },
+  applyTransition: function(top, $el, docWidth, docHeight) {
+      var duration = Math.round(Math.random() * 10000) + 5000;
+      $el.transition({ 
+            y: (docHeight - top) + 10,
+            easing: 'in-out',
+            duration: duration,
+            complete: $.proxy(function(){
+              /*Redo!*/
+              var $el = $("#" + this.get('elementId'));
+              var left = Math.round(Math.random() * docWidth  - $el.width());
 
-    var duration = 1000;
-    if($el.hasClass('large'))
-      duration = duration * 10;
-    else if($el.hasClass('medium'))
-      duration = duration * 9.5;
-    else
-      duration = duration * 9;
-
-    $el.transition({ y: - (top + docHeight), duration: duration });
+              $el.css('-webkit-transform', 'none');
+              $el.css('top', '-' + $el.height() + 'px');
+              $el.css('left', left + 'px');
+              this.applyTransition(-($el.height()), $el, docWidth, docHeight);
+            }, this),
+      });
   }
 });
 
-Nomnom.catContainer = Ember.View.extend({
+Nomnom.containerView = Ember.View.extend({
   types: ['large', 'small', 'medium'],
-  templateName: 'cats',
+  templateName: 'container',
+  catLimit: 10,
   init: function(){
-    this.populateImages();
+    self = this;
+    this.getCats();
     return this._super();
   },
-  populateImages: function(){
-    for(var i = 0 ; i < 10; i++) {
+  gotCats: function(jsonCats) {
+    for(var i = 0 ; i < jsonCats.length; i++) {
       var index =  Math.round(Math.random()*2);
       view = Nomnom.catView.create();
-      view.classNames = [this.types[index]];
+      view.src = jsonCats[i].url;
+      view.classNames = [self.types[index]];
       view.append();
-      this.get('childViews').pushObject(view);
     }
+  },
+  getCats: function(){
+    self = this;
+    $.ajax({
+      url: '/cats?limit=' + this.get('catLimit'),
+      dataType: 'json',
+      success: this.gotCats
+    });
   }
 });
 
 
 
 $(document).ready(function(){
-  var cats = Nomnom.catContainer.create();
-});
+  cats = Nomnom.containerView.create();
+}); 
