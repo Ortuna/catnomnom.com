@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     activesupport (3.2.12)
       i18n (~> 0.6)
@@ -19,6 +19,9 @@ GEM
       dm-core (~> 1.2.0)
     dm-migrations (1.2.0)
       dm-core (~> 1.2.0)
+    dm-postgres-adapter (1.2.0)
+      dm-do-adapter (~> 1.2.0)
+      do_postgres (~> 0.10.6)
     dm-serializer (1.2.2)
       dm-core (~> 1.2.0)
       fastercsv (~> 1.5)
@@ -32,6 +35,8 @@ GEM
       dm-core (~> 1.2.0)
     dm-validations (1.2.0)
       dm-core (~> 1.2.0)
+    do_postgres (0.10.12)
+      data_objects (= 0.10.12)
     do_sqlite3 (0.10.12)
       data_objects (= 0.10.12)
     fastercsv (1.5.5)
@@ -113,13 +118,14 @@ DEPENDENCIES
   dm-constraints
   dm-core
   dm-migrations
+  dm-postgres-adapter
   dm-serializer
   dm-sqlite-adapter
   dm-timestamps
   dm-validations
   haml
   multi_json
-  padrino (= 0.10.7)
+  padrino
   padrino-multi-json
   rack-test
   rake

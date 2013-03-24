@@ -8,15 +8,14 @@
     <![endif]-->
 
     <%= javascript_include_tag 'lib/jquery-1.8.3.min.js' %>
-    <%= javascript_include_tag 'lib/jquery.transit.min.js' %>
-    <%= javascript_include_tag 'lib/handlebars-1.0.rc.2.js' %>
-    
-    <%= javascript_include_tag 'lib/ember.js' %>
-    
+    <%= javascript_include_tag 'lib/jquery.masonry.min.js' %>
+    <%= javascript_include_tag 'lib/waypoints.min.js' %>
     <%= stylesheet_link_tag 'reset', 'global' %>
 
   </head>
   <body>
     <%= yield %>
+    <script type="text/javascript" src="//use.typekit.net/iho5maj.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   </body>
 </html>

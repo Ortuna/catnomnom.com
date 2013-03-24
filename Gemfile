@@ -1,16 +1,9 @@
-source :rubygems
-
-# Server requirements
-# gem 'thin' # or mongrel
-# gem 'trinidad', :platform => 'jruby'
-
-# Project requirements
+source 'https://rubygems.org'
 gem 'rake'
 gem 'sinatra-flash', :require => 'sinatra/flash'
 
-# Component requirements
 gem 'haml'
-gem 'dm-sqlite-adapter'
+
 gem 'dm-validations'
 gem 'dm-timestamps'
 gem 'dm-migrations'
@@ -21,17 +14,19 @@ gem 'dm-core'
 gem 'multi_json'
 
 # Test requirements
-gem 'rspec', :group => "test"
-gem 'rack-test', :require => "rack/test", :group => "test"
 
-# Padrino Stable Gem
-gem 'padrino', '0.10.7'
 gem 'padrino-multi-json'
+gem 'padrino'
 
-# Or Padrino Edge
-# gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
+group :test do
+  gem 'rspec'
+  gem 'rack-test', :require => "rack/test"
+end
 
-# Or Individual Gems
-# %w(core gen helpers cache mailer admin).each do |g|
-#   gem 'padrino-' + g, '0.10.7'
-# end
+group :development, :test do
+  gem 'dm-sqlite-adapter'
+end
+
+group :production do
+  gem 'dm-postgres-adapter'
+end

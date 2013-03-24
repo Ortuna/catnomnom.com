@@ -12,15 +12,9 @@ class CatnomnomCom
   end
 
   get '/cats', :provides => [:html, :json] do
-    limit = extract_limit_from_params(params[:limit])
-    @cats = Cat.all(:limit => limit)
+    limit = params[:limit].to_i || 25
+    @cats = Cat.all(:limit => limit, :offset => rand(Cat.count)).sort_by{rand}
     json @cats
   end
 
-
-  private
-  def extract_limit_from_params(limit = 0, default = 25)
-    limit = (params[:limit] && params[:limit].to_i) || default
-    limit == 0 ? default : limit 
-  end
 end
